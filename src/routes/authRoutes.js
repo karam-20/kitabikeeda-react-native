@@ -4,14 +4,13 @@ import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
-
 const generateToken = (userId) => {
   return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: "15d" });
 };
 
 router.post("/register", async (req, res) => {
   try {
-      console.log("req.body:", req.body); // 👈 Add this
+    console.log("req.body:", req.body); // 👈 Add this
 
     const { email, username, password } = req.body;
     if (!username || !email || !password) {
@@ -40,9 +39,16 @@ router.post("/register", async (req, res) => {
 
     const token = generateToken(user._id);
 
+    // ✅ Set HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // set to true in production
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+    });
+
     res.status(201).json({
       message: "User Created",
-      token,
       user: {
         _id: user._id,
         username: user.username,
@@ -72,8 +78,16 @@ router.post("/login", async (req, res) => {
 
     // generate token
     const token = generateToken(user._id);
+
+    // ✅ Set HTTP-only cookie
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
     res.status(200).json({
-      token,
       user: {
         id: user._id,
         username: user.username,
@@ -82,9 +96,18 @@ router.post("/login", async (req, res) => {
       },
     });
   } catch (error) {
-    console.log("Error in login route")
-    res.status(500).json({message:"Internal server error"})
+    console.log("Error in login route");
+    res.status(500).json({ message: "Internal server error" });
   }
+});
+
+router.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 });
 
 export default router;

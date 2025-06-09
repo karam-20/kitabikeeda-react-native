@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 job.start();
+app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 
