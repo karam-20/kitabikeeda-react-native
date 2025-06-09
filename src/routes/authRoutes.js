@@ -42,9 +42,9 @@ router.post("/register", async (req, res) => {
     // ✅ Set HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // set to true in production
-      sameSite: "strict",
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      secure: true, // true on HTTPS (e.g., Render)
+      sameSite: "None", // required for cross-origin
+      maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 
     res.status(201).json({
@@ -82,9 +82,9 @@ router.post("/login", async (req, res) => {
     // ✅ Set HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      secure: true, // true on HTTPS (e.g., Render)
+      sameSite: "None", // required for cross-origin
+      maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({
