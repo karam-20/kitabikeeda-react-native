@@ -13,7 +13,12 @@ const PORT = process.env.PORT || 3000;
 job.start();
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "https://your-frontend.vercel.app"], // ✅ Add both dev and deployed frontend URLs
+    credentials: true, // ✅ Allow sending cookies
+  })
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);
