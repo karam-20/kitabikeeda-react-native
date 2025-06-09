@@ -5,6 +5,7 @@ import bookRoutes from "./routes/bookRoutes.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import job from "./lib/cron.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
