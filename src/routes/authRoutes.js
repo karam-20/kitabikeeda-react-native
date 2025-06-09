@@ -85,6 +85,7 @@ router.post("/login", async (req, res) => {
       secure: true, // true on HTTPS (e.g., Render)
       sameSite: "None", // required for cross-origin
       maxAge: 15 * 24 * 60 * 60 * 1000,
+      path: "/",
     });
 
     res.status(200).json({
