@@ -2,6 +2,7 @@ import express from "express";
 import "dotenv/config";
 import authRoutes from "./routes/authRoutes.js";
 import bookRoutes from "./routes/bookRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import job from "./lib/cron.js";
@@ -15,13 +16,14 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://your-frontend.vercel.app"], // ✅ Add both dev and deployed frontend URLs
-    credentials: true, // ✅ Allow sending cookies
+    origin: ["http://localhost:3000", "https://your-frontend.vercel.app"], 
+    credentials: true, 
   })
 );
 
 app.use("/api/auth", authRoutes);
 app.use("/api/books", bookRoutes);
+app.use("/api/chat", chatRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on port ${PORT}`);
