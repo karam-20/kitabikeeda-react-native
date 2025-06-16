@@ -17,8 +17,10 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "https://zerocode-fe-assignment-f8wg-mgib8z7t9-karam20s-projects.vercel.app/",
-      "https://zerocode-fe-assignment-f8wg-mgib8z7t9-karam20s-projects.vercel.app/",
+      "https://zerocode-fe-assignment-f8wg.vercel.app",
+      "https://zerocode-fe-assignment-f8wg-git-main-karam20s-projects.vercel.app",
+      "https://zerocode-fe-assignment-f8wg-m954omrd7-karam20s-projects.vercel.app",
+      "https://zerocode-fe-assignment-f8wg-mgib8z7t9-karam20s-projects.vercel.app",
     ],
     credentials: true,
   })
